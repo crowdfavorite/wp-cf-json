@@ -56,7 +56,7 @@ if (!function_exists('cf_json_decode')) {
 }
 
 /**
- * Decode the incoming JSON data
+ * Decode JSON data acquired via Ajax
  *
  * @param string $json 
  * @param bool $array 
