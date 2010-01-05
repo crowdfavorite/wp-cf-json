@@ -40,7 +40,7 @@ if (!function_exists('cf_json_encode')) {
  * @return array/object
  */
 if (!function_exists('cf_json_decode')) {
-	function cf_json_decode($json, $array) {
+	function cf_json_decode($json, $array = false) {
 		if (function_exists('json_decode')) {
 			return json_decode($json, $array);
 		}
