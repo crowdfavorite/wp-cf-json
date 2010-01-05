@@ -54,4 +54,20 @@ if (!function_exists('cf_json_decode')) {
 		}
 	}
 }
+
+/**
+ * Decode the incoming JSON data
+ *
+ * @param string $json 
+ * @param bool $array 
+ * @return array
+ */
+if (!function_exists('cf_ajax_decode_json')) {
+	function cf_ajax_decode_json($json, $array = false) {
+		if (!get_magic_quotes_gpc()) {
+			$json = stripslashes($json);
+		}
+		return cf_json_decode($json, $array);
+	}
+}
 ?>
