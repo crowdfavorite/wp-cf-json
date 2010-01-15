@@ -7,9 +7,9 @@
  * @uses the Pear Class Services_JSON - http://pear.php.net/package/Services_JSON
  */
  
-if (!function_exists('json_encode') && !class_exists('Services_JSON')) {
+//if (!function_exists('json_encode') && !class_exists('Services_JSON')) {
 	require_once('JSON.php');
-}	
+//}	
 
 /**
  * cfct_json_encode
@@ -42,7 +42,7 @@ if (!function_exists('cf_json_encode')) {
 if (!function_exists('cf_json_decode')) {
 	function cf_json_decode($json, $array) {
 		if (function_exists('json_decode')) {
-			return json_decode($json, $array);
+			$ret = json_decode($json, $array);
 		}
 		else {
 			global $cfct_json_object;
@@ -50,9 +50,36 @@ if (!function_exists('cf_json_decode')) {
 				$cfct_json_object = new Services_JSON();
 			}
 			$cfct_json_object->use = $array ? SERVICES_JSON_LOOSE_TYPE : 0;
-			return $cfct_json_object->decode($json);
+			$ret = $cfct_json_object->decode($json);
 		}
+		
+		// la de da
+		if ($array == true && is_object($ret)) {
+			$ret = cf_json_object_to_array($ret);
+		}
+		
+		return $ret;
 	}
+}
+
+/**
+ * Due to certain "conditions" under WordPress 2.9 we may see an object come back 
+ * from json_decode when we've requested arrays. This function decodes nested objects
+ * in to nested arrays. See /wp-includes/compat.php, line 141 to find out why.
+ *
+ * Simply typecasting an object to an array is not enough - it must be done recursively.
+ *
+ * @param string $data 
+ * @return array
+ */
+function cf_json_object_to_array($data) {
+	if (!is_object($data) && !is_array($data)) {
+		return $data;
+	}
+	if (is_object($data)) {
+		$data = (array) $data;
+	}
+	return array_map('cf_json_object_to_array', $data);
 }
 
 /**
