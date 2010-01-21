@@ -7,9 +7,9 @@
  * @uses the Pear Class Services_JSON - http://pear.php.net/package/Services_JSON
  */
  
-//if (!function_exists('json_encode') && !class_exists('Services_JSON')) {
+if (!function_exists('json_encode') && !class_exists('Services_JSON')) {
 	require_once('JSON.php');
-//}	
+}	
 
 /**
  * cfct_json_encode
