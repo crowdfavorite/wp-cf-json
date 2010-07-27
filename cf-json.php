@@ -91,7 +91,7 @@ function cf_json_object_to_array($data) {
  */
 if (!function_exists('cf_ajax_decode_json')) {
 	function cf_ajax_decode_json($json, $array = false) {
-		if (get_magic_quotes_gpc()) {
+		if (!get_magic_quotes_gpc()) {
 			$json = stripslashes($json);
 		}
 		return cf_json_decode($json, $array);
