@@ -72,14 +72,16 @@ if (!function_exists('cf_json_decode')) {
  * @param string $data 
  * @return array
  */
-function cf_json_object_to_array($data) {
-	if (!is_object($data) && !is_array($data)) {
-		return $data;
+if (!function_exists('cf_json_object_to_array')) {
+	function cf_json_object_to_array($data) {
+		if (!is_object($data) && !is_array($data)) {
+			return $data;
+		}
+		if (is_object($data)) {
+			$data = (array) $data;
+		}
+		return array_map('cf_json_object_to_array', $data);
 	}
-	if (is_object($data)) {
-		$data = (array) $data;
-	}
-	return array_map('cf_json_object_to_array', $data);
 }
 
 /**
